@@ -1,0 +1,38 @@
+﻿@page "/"
+
+<PageTitle>To-Do App</PageTitle>
+
+<div class="todo-container">
+    <h1>To-Do App</h1>
+    <div class="todo-input">
+        <input type="text" @bind="ToDoInput" />
+        <button @onclick="AddTodo">Add</button>
+    </div>
+
+    @foreach (var toDo in ToDos)
+    {
+        <div class="todo-item">
+            <div class="todo-item__text">@toDo.Text</div>
+            <div class="todo-item__close" @onclick="@(() => RemoveTodo(toDo))">&times;</div>
+        </div>
+    }
+</div>
+
+@code
+{
+    public string? ToDoInput { get; set; }
+    public List<ToDo> ToDos = new();
+
+    public void AddTodo()
+    {
+        if (ToDoInput == null) return;
+
+        Console.WriteLine(ToDoInput);
+        ToDos.Add(new ToDo(ToDoInput));
+        ToDoInput = null;
+    }
+
+    public void RemoveTodo(ToDo toDo) => ToDos.Remove(toDo);
+
+    public record ToDo(string Text);
+}
